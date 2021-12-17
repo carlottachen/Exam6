@@ -2,7 +2,6 @@ const { Builder, Capabilities } = require('selenium-webdriver');
 require('chromedriver');
 const driver = new Builder().withCapabilities(Capabilities.chrome()).build();
 
-const { arrayReturned, arrayLength } = require('./functions.js');
 const { shuffleArray } = require('./utils');
 const { bots } = require('./data.js');
 
