@@ -33,6 +33,4 @@ test('Draw button returns five cards', async () => {
     await drawButton.click();
     const fiveDraws = await driver.findElements(By.className('bot-card outline'));
     expect(fiveDraws).toHaveLength(5);
-    //expect(fiveDraws).toHaveProperty('name');
-    //await driver.sleep(3000)
 })

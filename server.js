@@ -1,6 +1,14 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+
+const Rollbar = require('rollbar');
+const rollbar = new Rollbar({
+    accessToken: '2ec31e82693544339eb271f18a642cce',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+})
+
 const { bots, playerRecord } = require('./data')
 const { shuffleArray } = require('./utils')
 
@@ -8,22 +16,27 @@ app.use(express.json())
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/public/index.html'));
+    rollbar.info('html served successfully');
 })
 
 app.get('/js', function (req, res) {
     res.sendFile(path.join(__dirname, '/public/index.js'));
+    rollbar.info('js served successfully');
 })
 
 app.get('/css', function (req, res) {
     res.sendFile(path.join(__dirname, '/public/index.css'));
+    rollbar.info('css served successfully');
 })
 
 app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(bots)
+        rollbar.info('bot data retrieved successfully');
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
+        rollbar.warning('bot data unavailable')
     }
 })
 
@@ -60,9 +73,11 @@ app.post('/api/duel', (req, res) => {
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
             res.status(200).send('You lost!')
+            rollbar.log('Successful win', { type: 'win' });
         } else {
             playerRecord.losses++
             res.status(200).send('You won!')
+            rollbar.log('Successful loss', { type: 'loss' });
         }
     } catch (error) {
         console.log('ERROR DUELING', error)
