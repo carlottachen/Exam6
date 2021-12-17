@@ -1,17 +1,5 @@
-const { Builder, Capabilities } = require('selenium-webdriver');
-require('chromedriver');
-const driver = new Builder().withCapabilities(Capabilities.chrome()).build();
-
 const { shuffleArray } = require('./utils');
 const { bots } = require('./data.js');
-
-beforeEach(async () => {
-    driver.get('http://localhost:3000/')
-})
-
-afterAll(async () => {
-    driver.quit()
-})
 
 describe('shuffleArray should', () => {
     // CODE HERE
