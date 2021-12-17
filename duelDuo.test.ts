@@ -14,7 +14,8 @@ afterAll(async () => {
 })
 
 test('Title shows up when page loads', async () => {
-    const title = await driver.findElement(By.id('title'))
+    const title = await driver.findElement(By.css('#title'))
     const displayed = await title.isDisplayed()
     expect(displayed).toBe(true)
+    //await driver.sleep(5000)
 })
