@@ -23,15 +23,16 @@ test('Title shows up when page loads', async () => {
 test('See All Bots button displays choices', async () => {
     const seeAllBots = await driver.findElement(By.css('#see-all'));
     await seeAllBots.click();
-    const botCards = await driver.findElements(By.className('bot-card outline'))
+    const botCards = await driver.findElements(By.className('bot-card outline'));
     expect(botCards).toHaveLength(10);
 })
 
 test('Draw button returns five cards', async () => {
+    driver.navigate().refresh();
     const drawButton = await driver.findElement(By.css('#draw'));
     await drawButton.click();
-    const fiveDraws = await driver.findElements(By.css('#choices'));
-
+    const fiveDraws = await driver.findElements(By.className('bot-card outline'));
+    expect(fiveDraws).toHaveLength(5);
     //expect(fiveDraws).toHaveProperty('name');
     //await driver.sleep(3000)
 })
